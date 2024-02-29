@@ -1,0 +1,82 @@
+<!-- /your-project-folder/frontend/member-dashboard.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="member-dashboard.css"> <!-- Link to coach-dashboard.css for styling -->
+  <title>GYMSTER - Member Dashboard</title>
+</head>
+<body>
+  <header>
+    <h1>GYMSTER gets you fit</h1>
+    <p>Your platform for personalized fitness coaching.</p>
+  </header>
+
+  <div id="member-bio-box" class="dashboard-box">
+    <h2>Member Bio</h2>
+  
+    <div id="circular-picture" style="background-image: url('https://via.placeholder.com/150');"></div>
+    <button id="change-picture-button">Change Picture</button>
+  
+    <div id="profile-info">
+      <div class="profile-field">
+        <div class="field-key">Full Name:</div>
+        <div class="field-value" contenteditable="true">John Doe</div>
+      </div>
+      <div class="profile-field">
+        <div class="field-key">Zipcode:</div>
+        <div class="field-value" contenteditable="true"></div>
+      </div>
+      <div class="profile-field">
+        <div class="field-key">Height:</div>
+        <div class="field-value" contenteditable="true">5' 3"</div>
+      </div>
+      <div class="profile-field">
+        <div class="field-key">Weight:</div>
+        <div class="field-value" contenteditable="true">172</div>
+      </div>
+      <div class="profile-field">
+        <div class="field-key">Preferred Gym#1:</div>
+        <div class="field-value" contenteditable="true"></div>
+      </div>
+      <div class="profile-field">
+        <div class="field-key">Preferred Gym#2:</div>
+        <div class="field-value" contenteditable="true"></div>
+      </div>
+    </div>
+  
+    <button id="save-profile-button">Save Profile Changes</button>
+  </div>
+
+    <!-- Middle Box - Search -->
+    <div id="search-box" class="dashboard-box">
+      <h2>Search for coaches nearby</h2>
+      <form id="search-form">
+        <label for="zipcode">Enter your zip code:</label>
+        <input type="text" id="zipcode" name="zipcode" required>
+        <label for="radius">Select radius (miles):</label>
+        <output for="radius" id="radius-value">10</output>
+        <input type="range" id="radius" name="radius" min="5" max="30" step="1" value="10">
+        
+        <button type="submit">Search</button>
+      </form>
+      <div id="search-results">
+        <!-- Search results will be displayed here -->
+      </div>
+    </div>
+
+    <!-- Right Box - Future Appointments -->
+    <div id="future-appointments-box" class="dashboard-box">
+      <h2>Future Appointments</h2>
+      <ul id="future-appointments-list">
+        <!-- Appointments will be dynamically added here -->
+        <!-- Example: <li>Appointment 1</li> -->
+      </ul>
+    </div>
+  </div>
+
+  <script src="member-dashboard.js"></script>
+</body>
+</html>
