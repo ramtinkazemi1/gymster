@@ -20,14 +20,18 @@ header {
 
 header .container {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  margin-right: auto; /* Pushes the button to the left */
+}
+
+.header-center {
+  text-align: center;
+  flex-grow: 1; /* Occupy remaining space */
 }
 
 header h1 {
@@ -104,11 +108,37 @@ header p {
 .feature {
   text-align: center;
   margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .feature img {
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px rgba(255, 192, 203, 0.5); /* Pink shadow */
+  animation: bullety 2s infinite alternate; /* Animated shadow */
+  margin: 0 auto 20px;
+}
+
+@keyframes bullety {
+  0% {
+    box-shadow: 0 0 20px rgba(255, 192, 203, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 40px rgba(255, 192, 203, 0.8);
+  }
+}
+
+#features .container {
+  display: flex;
+  justify-content: space-between;
+}
+
+#features .feature {
+  flex-basis: calc(33.33% - 20px);
+  max-width: calc(33.33% - 20px);
 }
 
 .feature h3 {
@@ -236,11 +266,10 @@ footer {
 }
 
 /* Login button */
-.login-btn {
+#signin-btn {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 20px;
+  top: 20px;
+  left: 20px;
   background-color: #333;
   color: #fff;
   padding: 10px 20px;
@@ -249,31 +278,55 @@ footer {
   transition: background-color 0.3s ease;
 }
 
-.login-btn:hover {
+#signin-btn:hover {
   background-color: #555;
 }
 
-/* Responsive styles */
-@media only screen and (max-width: 767px) {
-  .container {
-    width: 90%;
-  }
+/* Sign-in box styles */
+.signin-box {
+  display: none;
+  position: absolute;
+  top: 40px;
+  right: 20px; /* Adjusted position */
+  width: 300px; /* Adjusted width */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-@media only screen and (min-width: 768px) {
-  .container {
-    width: 80%;
-  }
+.signin-box input[type="text"],
+.signin-box input[type="password"] {
+  width: calc(100% - 20px);
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-@media only screen and (min-width: 992px) {
-  .container {
-    width: 70%;
-  }
+.signin-box input[type="text"]:focus,
+.signin-box input[type="password"]:focus {
+  outline: none;
+  border-color: #ff4081;
 }
 
-@media only screen and (min-width: 1200px) {
-  .container {
-    width: 1200px;
-  }
+.signin-box .forgot-password {
+  display: block;
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.signin-box button.signin {
+  width: 100%;
+  background-color: #ff4081;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.signin-box button.signin:hover {
+  background-color: #ff6699;
 }

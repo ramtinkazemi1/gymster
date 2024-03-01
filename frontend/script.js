@@ -46,7 +46,27 @@ document.addEventListener('DOMContentLoaded', function () {
     memberOption.addEventListener('change', toggleCoachUploadSection);
   });
 
-  const carousel = document.getElementById('testimonial-carousel');
+  document.addEventListener('DOMContentLoaded', function() {
+    var signinBtn = document.getElementById('signin-btn');
+    var signinBox = document.getElementById('signin-box');
+
+    signinBtn.addEventListener('click', function() {
+        // Calculate the position of the sign-in button
+        var btnRect = signinBtn.getBoundingClientRect();
+
+        // Set the position of the sign-in box below the button with some space
+        signinBox.style.top = btnRect.bottom + 10 + 'px';
+        signinBox.style.left = btnRect.left + 'px';
+
+        // Toggle the display of the sign-in box
+        if (signinBox.style.display === 'block') {
+            signinBox.style.display = 'none';
+        } else {
+            signinBox.style.display = 'block';
+        }
+    });
+});
+const carousel = document.getElementById('testimonial-carousel');
 const slides = document.querySelectorAll('.testimonial-slide');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
