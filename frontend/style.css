@@ -60,7 +60,7 @@ header p {
 
 /* Hero section */
 #hero {
-  background-image: url('https://source.unsplash.com/1200x800/?gym,sexy');
+  background-image: url(./media/bg.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
