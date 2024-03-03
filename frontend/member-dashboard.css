@@ -186,12 +186,6 @@ header {
 #zipcode:focus {
   outline: none;
   border-color: #ff4081;
-  /*Pinkbordercoloronfocus*/box-shadow: 0 0 5px #ff4081;
-  /*Pinkshadowonfocus*/:;
-  -webkit-border-radius:;
-  -moz-border-radius:;
-  -ms-border-radius:;
-  -o-border-radius:;
 }
 
 
