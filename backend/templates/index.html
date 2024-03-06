@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--<link rel="stylesheet" href="style.css">-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+
+  <title>GYMSTER</title>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <div class="header-left">
+        <a href="#" class="btn" id="signin-btn">Sign In</a>
+        <div class="signin-box" id="signin-box">
+          <input type="text" placeholder="Email/Phone number">
+          <input type="password" placeholder="Password">
+          <button class="signin">Sign In</button>
+          <a href="#" class="forgot-password" style="font-size: smaller">Forgot password?</a>
+        </div>
+      </div>
+      <div class="header-center">
+        <h1>GYMSTER</h1>
+        <p>Your Fitness Journey Starts Here</p>
+      </div>
+    </div>
+  </header>
+
+
+  <section id="hero">
+    <div class="container">
+      <h2>Welcome to GYMSTER</h2>
+      <p>Empowering you to achieve your fitness goals with personalized coaching and support.</p>
+      <a href="#signup" class="btn">Get Started</a>
+    </div>
+  </section>
+
+  <section id="features">
+    <h2>Our Services</h2>
+    <div class="container">
+      <div class="feature">
+        <img src="{{ url_for('static', filename='media/pg1.jpg') }}" alt="Feature 1" width="150" height="150">
+        <h3>Personalized Coaching</h3>
+        <p>Receive tailored workout plans and expert guidance to maximize your results.</p>
+      </div>
+      <div class="feature">
+        <img src="{{ url_for('static', filename='media/pg2.png') }}" width="150" height="150">
+        <h3>Interactive Workouts</h3>
+        <p>Engage in live classes and interactive sessions led by certified trainers.</p>
+      </div>
+      <div class="feature">
+        <img src="{{ url_for('static', filename='media/pg3.png') }}" width="150" height="150">
+        <h3>Community Support</h3>
+        <p>Join a supportive community of fitness enthusiasts to stay motivated and accountable.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="testimonial">
+    <div class="container">
+      <h2 class="testimonial-title">What Our Clients Say</h2>
+      <div id="testimonial-carousel" class="carousel">
+        <div class="testimonial-slide">
+          <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Client 1" class="profile-pic">
+          <p>"GYMSTER has been a game-changer for me. The personalized coaching has helped me achieve results I never thought possible."</p>
+          <cite>John Doe</cite>
+        </div>
+        <div class="testimonial-slide">
+          <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="Client 2" class="profile-pic">
+          <p>"I love the variety of interactive workouts available on GYMSTER. It keeps me engaged and motivated to stick to my fitness routine."</p>
+          <cite>Jane Smith</cite>
+        </div>
+        <div class="testimonial-slide">
+          <img src="https://randomuser.me/api/portraits/men/3.jpg" alt="Client 3" class="profile-pic">
+          <p>"I've tried many fitness programs, but GYMSTER stands out with its supportive community and personalized approach."</p>
+          <cite>David Johnson</cite>
+        </div>
+        <div class="testimonial-slide">
+          <img src="https://randomuser.me/api/portraits/women/4.jpg" alt="Client 4" class="profile-pic">
+          <p>"GYMSTER has helped me stay consistent with my workouts. The trainers are amazing and always keep me motivated."</p>
+          <cite>Emily Wilson</cite>
+        </div>
+      </div>
+      <button id="prevBtn">&#10094;</button>
+      <button id="nextBtn">&#10095;</button>
+    </div>
+  </section>
+
+  <section id="signup">
+    <div class="container">
+      <h2 style="margin-bottom: 3vh;">Start Your Fitness Journey Today</h2>
+      <a href="{{ url_for('signup') }}" class="btn">Sign Up Now</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <p>© 2024 GYMSTER. All rights reserved.</p>
+        <ul class="footer-links">
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
