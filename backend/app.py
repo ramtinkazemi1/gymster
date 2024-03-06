@@ -88,8 +88,6 @@ def signup():
     return render_template('signup.html', form=form)
 
 
-
-
 @app.route('/users')
 def view_users():
     users = User.query.all()
