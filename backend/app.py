@@ -1,9 +1,6 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from wtforms import Form, StringField, PasswordField, validators
-from flask_migrate import Migrate
-from flask import send_from_directory
-
 
 app = Flask(__name__, static_folder='../frontend/static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1130@localhost/gymster_db'
@@ -11,9 +8,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'your_secret_key'
 
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
 
-#Define your database models
+# Define your database models
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -28,11 +24,12 @@ class User(db.Model):
     state = db.Column(db.String(50), nullable=False)
     zipcode = db.Column(db.String(20), nullable=False)
     country = db.Column(db.String(50), nullable=False)
+    user_type = db.Column(db.String(10), nullable=False)  # 'coach' or 'trainee'
 
     def __repr__(self):
         return f"User('{self.first_name}', '{self.last_name}', '{self.email}')"
 
-#Define a signup form with validation
+# Define a signup form with validation
 class SignupForm(Form):
     first_name = StringField('First Name', [validators.Length(min=1, max=50)])
     last_name = StringField('Last Name', [validators.Length(min=1, max=50)])
@@ -62,6 +59,7 @@ def signup_success(first_name):
 def signup():
     form = SignupForm(request.form)
     if request.method == 'POST' and form.validate():
+        signup_type = request.form.get('signup-type')
         first_name = form.first_name.data
         last_name = form.last_name.data
         email = form.email.data
@@ -73,11 +71,13 @@ def signup():
         state = form.state.data
         zipcode = form.zipcode.data
         country = form.country.data
+        user_type = 'trainer' if signup_type == 'trainer' else 'trainee'
+
 
         # Store the user data in the database
         new_user = User(first_name=first_name, last_name=last_name, email=email, phone_number=phone_number,
                         password=password, street_address_1=street_address_1, street_address_2=street_address_2,
-                        city=city, state=state, zipcode=zipcode, country=country)
+                        city=city, state=state, zipcode=zipcode, country=country, user_type=user_type)
         db.session.add(new_user)
         db.session.commit()
 
@@ -92,6 +92,14 @@ def signup():
 def view_users():
     users = User.query.all()
     return render_template('view_users.html', users=users)
+
+@app.route('/coach-dashboard')
+def coach_dashboard():
+    return render_template('coach_dashboard.html')
+
+@app.route('/member-dashboard')
+def member_dashboard():
+    return render_template('member_dashboard.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

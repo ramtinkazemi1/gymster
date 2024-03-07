@@ -97,20 +97,21 @@
   </header>
 
   <section id="signup-content">
-    <h2>Sign Up</h2>
-    <p>Are you a coach or a member?</p>
-    <div id="signup-options">
-      <label>
-        <input type="radio" name="signup-type" value="member" checked>
-        I am a Member
-      </label>
-      <label>
-        <input type="radio" name="signup-type" value="coach">
-        I am a Coach/Trainer
-      </label>
-    </div>
+    <center><h2>Sign Up</h2></center>
 
     <form action="/signup" id="signup-form" method="POST">
+
+      <p>Are you a trainee or a coach/trainer?</p>
+    <div id="signup-options">
+      <label>
+          <input type="radio" name="signup-type" value="trainee">
+          I am a Trainee
+      </label>
+      <label>
+          <input type="radio" name="signup-type" value="trainer" checked>
+          I am a Trainer
+      </label>
+  </div>
       <label for="first-name">First Name:</label>
       <input type="text" id="first-name" name="first_name" required>
 
@@ -145,7 +146,7 @@
       <input type="text" id="country" name="country" required>
 
       <label for="upload-documents" id="upload-documents-label">Please upload your degree of certificates:</label>
-      <input type="file" id="upload-documents" name="upload-documents" multiple>
+      <input type="file" id="upload-documents" name="upload_documents" multiple>
 
       <button type="submit" id="signup-button">Sign Up</button>
     </form>
@@ -159,8 +160,8 @@
 
          var uploadDocumentsLabel = document.getElementById('upload-documents-label');
          var uploadDocumentsInput = document.getElementById('upload-documents');
-         var coachTrainerRadio = document.querySelector('input[name="signup-type"][value="coach"]');
-         var memberRadio = document.querySelector('input[name="signup-type"][value="member"]');
+         var coachTrainerRadio = document.querySelector('input[name="signup-type"][value="trainer"]');
+         var memberRadio = document.querySelector('input[name="signup-type"][value="trainee"]');
 
          function toggleUploadDocumentsVisibility() {
              if (coachTrainerRadio.checked) {
