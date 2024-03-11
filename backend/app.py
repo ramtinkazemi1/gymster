@@ -25,6 +25,7 @@ class User(db.Model):
     zipcode = db.Column(db.String(20), nullable=False)
     country = db.Column(db.String(50), nullable=False)
     user_type = db.Column(db.String(10), nullable=False)  # 'coach' or 'trainee'
+    
 
     def __repr__(self):
         return f"User('{self.first_name}', '{self.last_name}', '{self.email}')"
