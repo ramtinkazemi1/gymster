@@ -97,94 +97,95 @@
   </header>
 
   <section id="signup-content">
-    <h2>Sign Up</h2>
-    <p>Are you a coach or a member?</p>
-    <div id="signup-options">
-      <label>
-        <input type="radio" name="signup-type" value="member" checked>
-        I am a Member
-      </label>
-      <label>
-        <input type="radio" name="signup-type" value="coach">
-        I am a Coach/Trainer
-      </label>
-    </div>
+    <center><h2>Sign Up</h2></center>
 
     <form action="/signup" id="signup-form" method="POST">
+
+      <p>Are you a trainee or a coach/trainer?</p>
+    <div id="signup-options">
+      <label>
+          <input type="radio" name="signup-type" value="trainee">
+          I am a Trainee
+      </label>
+      <label>
+          <input type="radio" name="signup-type" value="trainer" checked>
+          I am a Trainer
+      </label>
+  </div>
       <label for="first-name">First Name:</label>
-      <input type="text" id="first-name" name="first-name" required>
-  
+      <input type="text" id="first-name" name="first_name" required>
+
       <label for="last-name">Last Name:</label>
-      <input type="text" id="last-name" name="last-name" required>
-  
+      <input type="text" id="last-name" name="last_name" required>
+
       <label for="email">Email Address:</label>
       <input type="email" id="email" name="email" required>
-  
+
       <label for="phone-number">Phone Number (Username):</label>
-      <input type="text" id="phone-number" name="phone-number" required>
-  
+      <input type="text" id="phone-number" name="phone_number" required>
+
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" required>
-  
+
       <label for="street-address-1">Street Address 1:</label>
-      <input type="text" id="street-address-1" name="street-address-1" required>
-  
+      <input type="text" id="street-address-1" name="street_address_1" required>
+
       <label for="street-address-2">Street Address 2:</label>
-      <input type="text" id="street-address-2" name="street-address-2">
-  
+      <input type="text" id="street-address-2" name="street_address_2">
+
       <label for="city">City:</label>
       <input type="text" id="city" name="city" required>
-  
+
       <label for="state">State:</label>
       <input type="text" id="state" name="state" required>
-  
+
       <label for="zipcode">Zip Code:</label>
       <input type="text" id="zipcode" name="zipcode" required>
-  
+
       <label for="country">Country:</label>
       <input type="text" id="country" name="country" required>
-  
-      <!-- <label for="upload-documents" id="upload-documents-label">Please upload your degree of certificates:</label>
-      <input type="file" id="upload-documents" name="upload-documents" multiple required> -->
-  
+
+      <label for="upload-documents" id="upload-documents-label">Please upload your degree of certificates:</label>
+      <input type="file" id="upload-documents" name="upload_documents" multiple>
+
       <button type="submit" id="signup-button">Sign Up</button>
     </form>
-  
+
   </section>
 
-  <!--
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // console.log('DOMContentLoaded event fired');
-        
-        // var uploadDocumentsLabel = document.getElementById('upload-documents-label');
-        // var uploadDocumentsInput = document.getElementById('upload-documents');
-        // var coachTrainerRadio = document.querySelector('input[name="signup-type"][value="coach"]');
-        // var memberRadio = document.querySelector('input[name="signup-type"][value="member"]');
-        
-        // function toggleUploadDocumentsVisibility() {
-        //     if (coachTrainerRadio.checked) {
-        //         uploadDocumentsLabel.style.display = 'block';
-        //         uploadDocumentsInput.style.display = 'block';
-        //     } else {
-        //         uploadDocumentsLabel.style.display = 'none';
-        //         uploadDocumentsInput.style.display = 'none';
-        //     }
-        // }
-      
-        // coachTrainerRadio.addEventListener('change', toggleUploadDocumentsVisibility);
-        // memberRadio.addEventListener('change', toggleUploadDocumentsVisibility);
-      
-        // toggleUploadDocumentsVisibility();
+         console.log('DOMContentLoaded event fired');
+
+         var uploadDocumentsLabel = document.getElementById('upload-documents-label');
+         var uploadDocumentsInput = document.getElementById('upload-documents');
+         var coachTrainerRadio = document.querySelector('input[name="signup-type"][value="trainer"]');
+         var memberRadio = document.querySelector('input[name="signup-type"][value="trainee"]');
+
+         function toggleUploadDocumentsVisibility() {
+             if (coachTrainerRadio.checked) {
+                 uploadDocumentsLabel.style.display = 'block';
+                 uploadDocumentsInput.style.display = 'block';
+             } else {
+                 uploadDocumentsLabel.style.display = 'none';
+                 uploadDocumentsInput.style.display = 'none';
+             }
+         }
+
+         coachTrainerRadio.addEventListener('change', toggleUploadDocumentsVisibility);
+         memberRadio.addEventListener('change', toggleUploadDocumentsVisibility);
+
+         toggleUploadDocumentsVisibility();
     });
   </script>
--->
 
 
-  <script>
+
+  <!-- <script>
     document.getElementById('signup-button').addEventListener('click', function() {
       console.log('Sign-up button clicked');
     });
-  </script>
+  </script> -->
 </body>
 </html>

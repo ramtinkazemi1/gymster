@@ -4,10 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up Success</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
+    <!-- <link rel="stylesheet" href="signup-success.css"> -->
+    <link rel="stylesheet" href="{{url_for('static', filename='signup-success.css')}}">
 </head>
 <body>
-    <h1>Sign Up Successful!</h1>
-    <p>Welcome, {{ first_name }}! Your account has been successfully created.</p>
-    <!-- You can include additional content or links here -->
+    <div class="container">
+        <div class="message-box">
+            <h1>Sign Up Successful!</h1>
+            <p>Welcome, <span class="first-name">{{ first_name }}</span>! Your account has been successfully created.</p>
+        </div>
+    </div>
+    <script>
+        // Wait for other animations to finish before fading in the first name
+        window.onload = function() {
+            var firstName = document.querySelector('.first-name');
+            var messageBox = document.querySelector('.message-box');
+            
+            // Calculate the total duration of other animations
+            var totalAnimationDuration = 0;
+            var animations = messageBox.getAnimations();
+            animations.forEach(function(animation) {
+                if (animation.effect && animation.effect.timing) {
+                    var duration = animation.effect.timing.delay + animation.effect.timing.duration;
+                    totalAnimationDuration = Math.max(totalAnimationDuration, duration);
+                }
+            });
+            
+            // Set timeout to fade in the first name after other animations
+            setTimeout(function() {
+                firstName.style.opacity = 1;
+                firstName.style.animation = 'fadeIn 1s forwards'; // Apply fade in animation
+            }, totalAnimationDuration);
+        };
+    </script>
 </body>
 </html>

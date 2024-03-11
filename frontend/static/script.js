@@ -1,50 +1,11 @@
-// /your-project-folder/frontend/script.js
-
-document.addEventListener('DOMContentLoaded', function () {
-    // Section 1: Member Login
-    const memberLoginButton = document.getElementById('member-login');
-    const memberLoginFields = document.getElementById('member-login-fields');
-    const signupLink = document.getElementById('signup-link');
-  
-    // Add click event listeners
-    memberLoginButton.addEventListener('click', showMemberLoginFields);
-    signupLink.addEventListener('click', redirectToSignup);
-  
-    // Functions for button clicks
-    function showMemberLoginFields() {
-      // Hide other login options
-      memberLoginButton.style.display = 'none';
-  
-      // Show member login fields
-      memberLoginFields.style.display = 'block';
-    }
-  
-    function redirectToSignup() {
-      window.location.href = 'signup.html';
-    }
-  });
-  
-  document.addEventListener('DOMContentLoaded', function () {
-    // Section 2: Coach Signup
-    const coachOption = document.querySelector('input[name="signup-type"][value="coach"]');
-    const coachUploadSection = document.getElementById('coach-upload-section');
-  
-    // Add change event listener
-    coachOption.addEventListener('change', toggleCoachUploadSection);
-  
-    // Function to toggle the coach upload section
-    function toggleCoachUploadSection() {
-      // Show the upload section if the user is a coach, hide otherwise
-      coachUploadSection.style.display = coachOption.checked ? 'block' : 'none';
-    }
-  
-    // Initialize the state on page load
-    toggleCoachUploadSection();
-  
-    // Get the member option and add event listener
-    const memberOption = document.querySelector('input[name="signup-type"][value="member"]');
-    memberOption.addEventListener('change', toggleCoachUploadSection);
-  });
+document.addEventListener('DOMContentLoaded', function() {
+    const signInButton = document.getElementById('signin');
+    
+    signInButton.addEventListener('click', function() {
+        console.log('Sign-in button clicked'); // Add this line
+        // Your existing sign-in logic here
+    });
+});
 
   document.addEventListener('DOMContentLoaded', function() {
     var signinBtn = document.getElementById('signin-btn');
@@ -66,6 +27,53 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+
+
+// the inner sign in button *****************************************************************************************
+document.addEventListener('DOMContentLoaded', function () {
+    const signInButton = document.getElementById('signin');
+
+    signInButton.addEventListener('click', function () {
+        // Retrieve user input (phone number and password)
+        const phoneNumber = document.getElementById('phone-number').value;
+        const password = document.getElementById('password').value;
+
+        console.log('Phone number:', phoneNumber); // Print the phone number value
+        console.log('Password:', password); // Print the password value
+
+        // Send a POST request to the Flask backend
+        fetch('/signin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ phone_number: phoneNumber, password: password })
+        })
+        .then(response => {
+            console.log('Response:', response); // Print the response object
+
+            if (response.ok) {
+                // Redirect based on user type
+                window.location.href = response.url;  // Redirect to the URL specified in the response
+            } else {
+                throw new Error('Failed to sign in');
+            }
+        })
+        .catch(error => {
+            console.error('Sign-in failed:', error);
+            // Handle sign-in failure (e.g., display error message)
+            console.log('Sign-in failed'); // Print a message indicating sign-in failure
+        });
+    });
+});
+
+
+
+
+
+
+
 const carousel = document.getElementById('testimonial-carousel');
 const slides = document.querySelectorAll('.testimonial-slide');
 const prevBtn = document.getElementById('prevBtn');

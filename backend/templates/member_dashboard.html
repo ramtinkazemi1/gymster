@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="member-dashboard.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='member-dashboard.css') }}">
   <title>GYMSTER - Member Dashboard</title>
 </head>
 <body>
@@ -30,12 +30,16 @@
         <button id="change-picture-button">Change Picture</button>
         <div id="profile-info">
           <div class="profile-field">
+            <div class="field-key">Phone Number:</div>
+            <div class="field-value" >{{ user.phone_number }}</div>
+          </div>
+          <div class="profile-field">
             <div class="field-key">Full Name:</div>
-            <div class="field-value" contenteditable="true">John Doe</div>
+            <div class="field-value" >{{ user.first_name }} {{ user.last_name }}</div>
           </div>
           <div class="profile-field">
             <div class="field-key">Zipcode:</div>
-            <div class="field-value" contenteditable="true"></div>
+            <div class="field-value" >{{ user.zipcode }}</div>
           </div>
           <div class="profile-field">
             <div class="field-key">Height:</div>
@@ -76,6 +80,6 @@
     </div>
   </div>
 
-  <script src="member-dashboard.js"></script>
+  <script src="{{ url_for('static', filename='member-dashboard.js') }}"></script>
 </body>
 </html>
