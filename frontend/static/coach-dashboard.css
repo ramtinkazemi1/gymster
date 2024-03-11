@@ -1,180 +1,143 @@
 /* coach-dashboard.css */
 
-#coach-dashboard-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-  }
-  
-  #coach-profile-box {
-    width: 300px;
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center items horizontally */
-  }
-  
-  #circular-picture {
-    width: 150px;
-    height: 150px;
-    background-color: #ddd;
-    border-radius: 50%;
-    margin-bottom: 10px;
-  }
-  
-  #change-picture-button {
-    display: block;
-    margin-top: 10px;
-    margin-bottom: 5px; /* Add margin between button and the next element */
-  }
-  
-  .editable {
-    border: 1px solid #ccc;
-    padding: 5px;
-    margin-bottom: 10px;
-  }
-  
-  #save-profile-changes-button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    align-self: center; /* Center button horizontally */
-    margin-top: 10px; /* Add margin for separation */
-  }
-  
-  #save-profile-changes-button:hover {
-    background-color: #45a049;
-  }
-  
-  #availability-box {
-    width: 300px;
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .profile-field {
-    margin-bottom: 10px;
-  }
-  
-  .field-key {
-    font-weight: bold;
-    margin-right: 5px;
-  }
-  
-  .field-value {
-    display: inline-block;
-    border: 1px solid #ccc;
-    padding: 5px;
-    min-width: 200px;
-    max-width: 300px;
-  }
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
 
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
 
+.dashboard-container {
+  display: flex;
+}
 
-  #availability-box {
-    width: 300px;
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  #availability-calendar {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr); /* 7 columns for days of the week */
-    gap: 5px;
-    margin-bottom: 10px;
-  }
-  
-  .day-label {
-    font-weight: bold;
-  }
-  
-  .day-checkbox {
-    width: 100%;
-    margin-bottom: 5px;
-  }
-  
-  #save-availability-button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-  }
-  
-  #save-availability-button:hover {
-    background-color: #45a049;
-  }
+.dashboard-box {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+  padding: 20px;
+  flex: 1;
+}
 
-  #availability-selection {
-    margin-top: 20px;
-  }
-  
-  #availability-calendar {
-    margin-bottom: 20px;
-  }
-  
-  #timeframe-selection {
-    display: flex;
+.dashboard-box h2 {
+  color: #333;
+}
+
+/* Coach Profile Box */
+#coach-profile-box {
+  animation: slideIn 1s ease-in-out;
+}
+
+/* Availability Box */
+#availability-box {
+  animation: slideIn 1s ease-in-out;
+}
+
+#availability-selection {
+  margin-top: 20px;
+}
+
+/* Appointments Box */
+#appointments-box {
+  animation: slideIn 1s ease-in-out;
+}
+
+/* Circular Profile Picture Styling */
+#circular-picture {
+  width: 150px;
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+}
+
+#change-picture-button {
+  display: block;
+  margin: 0 auto 20px;
+  padding: 10px 20px;
+  background-color: #ff4081;
+  border: none;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#change-picture-button:hover {
+  background-color: #ff6699;
+}
+
+/* Save Profile Button Styling */
+#save-profile-changes-button,
+#save-availability-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%; /* Full width */
+  margin-top: 20px; /* Add margin for separation */
+}
+
+#save-profile-changes-button:hover,
+#save-availability-button:hover {
+  background-color: #45a049;
+}
+
+/* Profile Info Styling */
+.profile-field {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.field-key {
+  flex: 1;
+  font-weight: bold;
+}
+
+.field-value {
+  flex: 2;
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.field-value[contenteditable="true"]:focus {
+  outline: none;
+  border-color: #ff4081;
+  box-shadow: 0 0 5px #ff4081;
+}
+
+/* Responsive Styling */
+@media screen and (max-width: 768px) {
+  .dashboard-container {
     flex-direction: column;
   }
-  
-  label {
-    margin-bottom: 5px;
-  }
-  
-  input {
-    margin-bottom: 10px;
-  }
-  
-  #save-availability-button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  #save-availability-button:hover {
-    background-color: #45a049;
-  }
 
-  #availability-display {
-    margin-top: 20px;
+  .dashboard-box {
+    margin: 10px;
   }
-  
-  .availability-display-box {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 10px;
+}
+
+/* Animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
   }
-  
-  
-  /* Media Query for Responsive Design */
-  @media only screen and (max-width: 600px) {
-    #coach-dashboard-container {
-      flex-direction: column; /* Stack elements vertically on small screens */
-      align-items: center; /* Center items horizontally */
-    }
-  
-    #coach-profile-box {
-      width: 100%; /* Take full width on small screens */
-      margin-bottom: 20px; /* Add margin for separation */
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
+}

@@ -74,8 +74,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-
-
 const carousel = document.getElementById('testimonial-carousel');
 const slides = document.querySelectorAll('.testimonial-slide');
 const prevBtn = document.getElementById('prevBtn');

@@ -138,7 +138,17 @@ def view_users():
 
 @app.route('/coach-dashboard')
 def coach_dashboard():
-    return render_template('coach_dashboard.html')
+    # Check if user is logged in
+    if 'user_id' in session:
+        # Retrieve user data from the session or database based on the user_id
+        user_id = session['user_id']
+        user = User.query.get(user_id)  # Assuming you have a User model and a database session
+        if user:
+            return render_template('coach_dashboard.html', user=user)
+    
+    # If user is not logged in or user data retrieval fails, redirect to login page
+    flash('You must be logged in to access this page', 'error')
+    return redirect(url_for('index'))
 
 @app.route('/member-dashboard')
 def member_dashboard():

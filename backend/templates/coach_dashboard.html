@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="coach-dashboard.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='coach-dashboard.css') }}">
   <title>GYMSTER - Coach Dashboard</title>
 </head>
 <body>
@@ -14,66 +14,72 @@
     <p>Your platform for personalized fitness coaching.</p>
   </header>
 
-  <div id="coach-dashboard-container">
-    <div id="coach-profile-box">
-        <h2>Coach Profile</h2>
-      
-        <div id="circular-picture"></div>
-        <button id="change-picture-button">Change Picture</button>
-      
-        <div id="profile-info">
-          <div class="profile-field">
-            <div class="field-key">Full Name:</div>
-            <div class="field-value" contenteditable="true">{{ user.first_name }} {{ user.last_name }}</div>
-          </div>
-          <div class="profile-field">
-            <div class="field-key">Bio:</div>
-            <div class="field-value" contenteditable="true"></div>
-          </div>
-          <div class="profile-field">
-            <div class="field-key">Degree and Certs:</div>
-            <div class="field-value" contenteditable="true"></div>
-          </div>
-          <div class="profile-field">
-            <div class="field-key">Experiences:</div>
-            <div class="field-value" contenteditable="true"></div>
-          </div>
-          <div class="profile-field">
-            <div class="field-key">Specialty:</div>
-            <div class="field-value" contenteditable="true"></div>
-          </div>
-          <div class="profile-field">
-            <div class="field-key">Preferred gym#1:</div>
-            <div class="field-value" contenteditable="true"></div>
-          </div>
-          <div class="profile-field">
-            <div class="field-key">Preferred gym#2:</div>
-            <div class="field-value" contenteditable="true"></div>
-          </div>
+  <div id="coach-dashboard-container" class="dashboard-container">
+    <div id="coach-profile-box" class="dashboard-box">
+      <h2>Coach Profile</h2>
+    
+      <div id="circular-picture" style="background-image: url('https://via.placeholder.com/150');"></div>
+      <button id="change-picture-button">Change Picture</button>
+    
+      <div id="profile-info">
+        <div class="profile-field">
+          <div class="field-key">Phone Number:</div>
+          <div class="field-value">{{ user.phone_number }}</div>
         </div>
-      
-        <button id="save-profile-changes-button">Save Profile Changes</button>
-      </div>
-
-    <!-- Availability Box (Placeholder) -->
-    <div id="availability-box">
-        <h2>Availability</h2>
-        <div id="availability-selection">
-          <!-- Availability dropdowns and time inputs for each day -->
+        <div class="profile-field">
+          <div class="field-key">Full Name:</div>
+          <div class="field-value" contenteditable="false">{{ user.first_name }} {{ user.last_name }}</div>
         </div>
-        <button id="save-availability-button">Save Availability</button>
-        <div id="availability-display">
-          <!-- Display current availability times after saving -->
+        <div class="profile-field">
+          <div class="field-key">Zipcode:</div>
+          <div class="field-value" contenteditable="false">{{ user.zipcode }}</div>
+        </div>
+        <div class="profile-field">
+          <div class="field-key">Bio:</div>
+          <div class="field-value" contenteditable="true"></div>
+        </div>
+        <div class="profile-field">
+          <div class="field-key">Degree and Certs:</div>
+          <div class="field-value" contenteditable="true"></div>
+        </div>
+        <div class="profile-field">
+          <div class="field-key">Experiences:</div>
+          <div class="field-value" contenteditable="true"></div>
+        </div>
+        <div class="profile-field">
+          <div class="field-key">Specialty:</div>
+          <div class="field-value" contenteditable="true"></div>
+        </div>
+        <div class="profile-field">
+          <div class="field-key">Preferred gym#1:</div>
+          <div class="field-value" contenteditable="true"></div>
+        </div>
+        <div class="profile-field">
+          <div class="field-key">Preferred gym#2:</div>
+          <div class="field-value" contenteditable="true"></div>
         </div>
       </div>
+    
+      <button id="save-profile-changes-button">Save Profile Changes</button>
+    </div>
 
-    <!-- Appointments Box (Placeholder) -->
-    <div id="appointments-box">
+    <div id="availability-box" class="dashboard-box">
+      <h2>Availability</h2>
+      <div id="availability-selection">
+        <!-- Availability dropdowns and time inputs for each day -->
+      </div>
+      <button id="save-availability-button">Save Availability</button>
+      <div id="availability-display">
+        <!-- Display current availability times after saving -->
+      </div>
+    </div>
+
+    <div id="appointments-box" class="dashboard-box">
       <h2>Appointments</h2>
       <!-- Add your appointments box content here -->
     </div>
   </div>
 
-  <script src="coach-dashboard.js"></script>
+  <script src="{{ url_for('static', filename='coach-dashboard.js') }}"></script>
 </body>
 </html>
