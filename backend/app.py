@@ -1,6 +1,9 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+from flask import Flask, render_template, request, flash, redirect, url_for, session, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from wtforms import Form, StringField, PasswordField, validators
+from werkzeug.utils import secure_filename
+import os
 
 app = Flask(__name__, static_folder='../frontend/static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1130@localhost/gymster_db'
@@ -8,6 +11,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'your_secret_key'
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 # Define your database models
 class User(db.Model):
@@ -25,6 +29,7 @@ class User(db.Model):
     zipcode = db.Column(db.String(20), nullable=False)
     country = db.Column(db.String(50), nullable=False)
     user_type = db.Column(db.String(10), nullable=False)  # 'coach' or 'trainee'
+    profile_picture = db.Column(db.String(255))
 
     def __repr__(self):
         return f"User('{self.first_name}', '{self.last_name}', '{self.email}')"
@@ -50,7 +55,6 @@ class SignupForm(Form):
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 @app.route('/signin', methods=['POST'])
 def signin():
@@ -90,13 +94,10 @@ def signin():
     return redirect(url_for('index'))
 
 
-
-
-
-
 @app.route('/signup_success/<first_name>')
 def signup_success(first_name):
     return render_template('signup_success.html', first_name=first_name)
+
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -115,7 +116,6 @@ def signup():
         zipcode = form.zipcode.data
         country = form.country.data
         user_type = 'trainer' if signup_type == 'trainer' else 'trainee'
-
 
         # Store the user data in the database
         new_user = User(first_name=first_name, last_name=last_name, email=email, phone_number=phone_number,
@@ -136,34 +136,83 @@ def view_users():
     users = User.query.all()
     return render_template('view_users.html', users=users)
 
-@app.route('/coach-dashboard')
-def coach_dashboard():
-    # Check if user is logged in
-    if 'user_id' in session:
-        # Retrieve user data from the session or database based on the user_id
-        user_id = session['user_id']
-        user = User.query.get(user_id)  # Assuming you have a User model and a database session
-        if user:
-            return render_template('coach_dashboard.html', user=user)
-    
-    # If user is not logged in or user data retrieval fails, redirect to login page
-    flash('You must be logged in to access this page', 'error')
-    return redirect(url_for('index'))
 
-@app.route('/member-dashboard')
+@app.route('/member-dashboard', methods=['GET', 'POST'])
 def member_dashboard():
-    # Check if user is logged in
     if 'user_id' in session:
-        # Retrieve user data from the session or database based on the user_id
         user_id = session['user_id']
-        user = User.query.get(user_id)  # Assuming you have a User model and a database session
+        user = db.session.get(User, user_id)
         if user:
+            if request.method == 'POST':
+                # Check if the POST request contains file data
+                if 'profile_picture' in request.files:
+                    file = request.files['profile_picture']
+                    if file.filename != '':
+                        # Secure the filename to prevent directory traversal
+                        filename = secure_filename(file.filename)
+                        # Ensure the UPLOAD_FOLDER directory exists
+                        upload_folder = app.config['UPLOAD_FOLDER']
+                        os.makedirs(upload_folder, exist_ok=True)
+                        # Print the file path before saving
+                        print("File path before saving:", os.path.join(upload_folder, filename))
+                        # Save the file to the designated directory
+                        file.save(os.path.join(upload_folder, filename))
+                        # Update the user's profile picture path in the database
+                        user.profile_picture = 'uploads/' + filename
+                        db.session.commit()
+                        # Print the file path after saving
+                        print("File path after saving:", os.path.join(upload_folder, filename))
             return render_template('member_dashboard.html', user=user)
-    
-    # If user is not logged in or user data retrieval fails, redirect to login page
+
     flash('You must be logged in to access this page', 'error')
     return redirect(url_for('index'))
 
+
+@app.route('/profile-picture/<filename>')
+def get_profile_picture(filename):
+    # Construct the absolute path to the profile picture
+    profile_picture_path = os.path.join(app.root_path, 'uploads', filename)
+    # Serve the file to the client
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+
+@app.route('/coach-dashboard', methods=['GET', 'POST'])
+def coach_dashboard():
+    if 'user_id' in session:
+        user_id = session['user_id']
+        user = db.session.get(User, user_id)
+        if user:
+            if request.method == 'POST':
+                # Check if the POST request contains file data
+                if 'profile_picture' in request.files:
+                    file = request.files['profile_picture']
+                    if file.filename != '':
+                        # Secure the filename to prevent directory traversal
+                        filename = secure_filename(file.filename)
+                        # Ensure the UPLOAD_FOLDER directory exists
+                        upload_folder = app.config['UPLOAD_FOLDER']
+                        os.makedirs(upload_folder, exist_ok=True)
+                        # Print the file path before saving
+                        print("File path before saving:", os.path.join(upload_folder, filename))
+                        # Save the file to the designated directory
+                        file.save(os.path.join(upload_folder, filename))
+                        # Update the user's profile picture path in the database
+                        user.profile_picture = 'uploads/' + filename
+                        db.session.commit()
+                        # Print the file path after saving
+                        print("File path after saving:", os.path.join(upload_folder, filename))
+            return render_template('coach_dashboard.html', user=user)
+
+    flash('You must be logged in to access this page', 'error')
+    return redirect(url_for('index'))
+
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+# Define the upload folder for storing profile pictures
+app.config['UPLOAD_FOLDER'] = 'uploads'
 
 if __name__ == '__main__':
     app.run(debug=True)
