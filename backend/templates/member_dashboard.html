@@ -8,8 +8,25 @@
 </head>
 <body>
   <header>
-    <h1>{{ user.first_name }}'s Dashboard</h1>
+    <div class="header-container">
+      <div class="header-title">
+        <h1>{{ user.first_name }}'s Dashboard</h1>
+      </div>
+      <div class="user-profile">
+        <div class="profile-info">
+          <div class="circular-picture" style="background-image: url('{{ user.profile_picture or 'https://via.placeholder.com/150' }}');"></div>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Contact Us</a>
+          <a href="#" id="logout-link">Log Out</a>
+        </div>
+      </div>
+    </div>
   </header>
+  
+  
   <div class="dashboard-container">
     <!-- Left Box - Future Appointments -->
     <div id="future-appointments-box" class="dashboard-box">
@@ -44,11 +61,11 @@
           </div>
           <div class="profile-field">
             <div class="field-key">Height:</div>
-            <div class="field-value" contenteditable="true">5' 3"</div>
+            <div class="field-value" contenteditable="true"></div>
           </div>
           <div class="profile-field">
-            <div class="field-key">Weight:</div>
-            <div class="field-value" contenteditable="true">172</div>
+            <div class="field-key">Weight(lbs):</div>
+            <div class="field-value" contenteditable="true"></div>
           </div>
           <div class="profile-field">
             <div class="field-key">Preferred Gym#1:</div>
@@ -73,15 +90,53 @@
       <br>
       <label for="radius">Select radius (miles):</label>
       <output for="radius" id="radius-value">10</output>
-      <input type="range" id="radius" name="radius" min="1" max="30" step="1" value="10">
-      <center><button type="submit">Search</button></center>
+      <input type="range" id="radius" name="radius" min="0" max="30" step="1" value="10">
+      <center><button type="button" id="search-button">Search</button></center>
     </form>
     <div id="search-results">
-      <!-- Search results will be displayed here -->
-    </div>
+      {% for coach in coaches %}
+      <div class="card mb-3">
+          <div class="row no-gutters">
+              <div class="col-md-4">
+                  <img src="{{ coach.profile_picture }}" class="card-img" alt="Profile Picture">
+              </div>
+              <div class="col-md-8">
+                  <div class="card-body">
+                      <h5 class="card-title">{{ coach.first_name }} {{ coach.last_name }}</h5>
+                      <p class="card-text"><strong>Bio:</strong> {{ coach.bio }}</p>
+                      <p class="card-text"><strong>Degree and Certs:</strong> {{ coach.degree_and_certs }}</p>
+                      <p class="card-text"><strong>Experiences:</strong> {{ coach.experiences }}</p>
+                      <p class="card-text"><strong>Specialty:</strong> {{ coach.specialty }}</p>
+                      <p class="card-text"><strong>Preferred Gym #1:</strong> {{ coach.preferred_gym_1 }}</p>
+                      <p class="card-text"><strong>Preferred Gym #2:</strong> {{ coach.preferred_gym_2 }}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+
   </div>
 
   <script src="{{ url_for('static', filename='member-dashboard.js') }}"></script>
   <script src="{{ url_for('static', filename='profile_picture.js') }}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Retrieve the user's zipcode from the template
+      const userZipcode = "{{ user.zipcode }}";
+  
+      // Set the initial value of the zipcode input to the user's zipcode
+      const zipcodeInput = document.getElementById('zipcode');
+      zipcodeInput.value = userZipcode;
+  
+      // Display the initial value of the zipcode input
+      const zipcodeOutput = document.getElementById('zipcode-value');
+      zipcodeOutput.textContent = userZipcode;
+    });
+  </script>
+
+
+
+
 </body>
 </html>

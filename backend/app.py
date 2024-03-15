@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from wtforms import Form, StringField, PasswordField, validators
 from werkzeug.utils import secure_filename
+from sqlalchemy import func
+from uszipcode import SearchEngine
 import os
 
 app = Flask(__name__, static_folder='../frontend/static')
@@ -205,6 +207,24 @@ def coach_dashboard():
 
     flash('You must be logged in to access this page', 'error')
     return redirect(url_for('index'))
+
+
+@app.route('/search_coaches', methods=['POST'])
+def search_coaches():
+    if request.method == 'POST':
+        # Retrieve the user's zipcode and selected radius from the form
+        user_zipcode = request.form.get('zipcode')
+        radius = int(request.form.get('radius'))
+
+        # Query the database for coaches within the specified radius of the user's zipcode
+        coaches_within_radius = User.query.filter(User.user_type == 'coach',
+                                                  func.ST_DWithin(func.ST_SetSRID(func.ST_MakePoint(User.latitude, User.longitude), 4326),
+                                                                  func.ST_SetSRID(func.ST_MakePoint(user_zipcode.latitude, user_zipcode.longitude), 4326),
+                                                                  radius)).all()
+
+        return render_template('member_dashboard.html', coaches=coaches_within_radius)
+
+
 
 
 @app.route('/uploads/<filename>')
