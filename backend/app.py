@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session, send_from_directory
+from flask import Flask, render_template, request, flash, redirect, url_for, session, send_from_directory,jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from wtforms import Form, StringField, PasswordField, validators
@@ -6,6 +6,8 @@ from werkzeug.utils import secure_filename
 from sqlalchemy import func
 from uszipcode import SearchEngine
 import os
+from geopy.geocoders import Nominatim
+from math import radians, sin, cos, sqrt, atan2
 
 app = Flask(__name__, static_folder='../frontend/static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1130@localhost/gymster_db'
@@ -35,6 +37,25 @@ class User(db.Model):
 
     def __repr__(self):
         return f"User('{self.first_name}', '{self.last_name}', '{self.email}')"
+    
+    
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'email': self.email,
+            'phone_number': self.phone_number,
+            'street_address_1': self.street_address_1,
+            'street_address_2': self.street_address_2,
+            'city': self.city,
+            'state': self.state,
+            'zipcode': self.zipcode,
+            'country': self.country,
+            'user_type': self.user_type,
+            'profile_picture': self.profile_picture
+        }
 
 # Define a signup form with validation
 class SignupForm(Form):
@@ -209,20 +230,78 @@ def coach_dashboard():
     return redirect(url_for('index'))
 
 
+
 @app.route('/search_coaches', methods=['POST'])
 def search_coaches():
     if request.method == 'POST':
-        # Retrieve the user's zipcode and selected radius from the form
-        user_zipcode = request.form.get('zipcode')
-        radius = int(request.form.get('radius'))
+        try:
+            # Initialize the search engine
+            search = SearchEngine()
 
-        # Query the database for coaches within the specified radius of the user's zipcode
-        coaches_within_radius = User.query.filter(User.user_type == 'coach',
-                                                  func.ST_DWithin(func.ST_SetSRID(func.ST_MakePoint(User.latitude, User.longitude), 4326),
-                                                                  func.ST_SetSRID(func.ST_MakePoint(user_zipcode.latitude, user_zipcode.longitude), 4326),
-                                                                  radius)).all()
+            # Retrieve the user's zipcode and selected radius from the form
+            user_zipcode = request.json.get('zipcode')
+            radius = int(request.json.get('radius'))
 
-        return render_template('member_dashboard.html', coaches=coaches_within_radius)
+            if user_zipcode is not None and radius is not None:
+                print("User Zip Code:", user_zipcode)
+                result = search.by_zipcode(user_zipcode)
+                user_lat = result.lat
+                user_lng = result.lng
+                
+                print("User Latitude:", user_lat)
+                print("User Longitude:", user_lng)
+                
+                # Query the database for coaches within the specified radius of the user's zipcode
+                coaches_within_radius = User.query.filter(User.user_type == 'trainer').all()
+                print("Coaches retrieved from the database:", coaches_within_radius)
+                
+                # Filter coaches based on the distance from the user
+                coaches_within_radius = [coach for coach in coaches_within_radius if calculate_distance(user_zipcode, coach.zipcode) <= radius]
+                print("Coaches within the specified radius:", coaches_within_radius)
+                
+                # Serialize the coaches to JSON
+                serialized_coaches = [coach.serialize() for coach in coaches_within_radius]
+
+                # Return JSON response
+                return jsonify(coaches=serialized_coaches)
+            else:
+                # Return error message if zipcode or radius is missing
+                return jsonify(error='Zipcode or radius is null or empty'), 400
+        except Exception as e:
+            print("Error:", e)
+            return jsonify(error=str(e)), 500
+
+
+
+def calculate_distance(user_zipcode, coach_zipcode):
+    # Get the latitude and longitude of the user's zipcode
+    search = SearchEngine()
+    user_result = search.by_zipcode(user_zipcode)
+    user_lat = user_result.lat
+    user_lng = user_result.lng
+    
+    # Get the latitude and longitude of the coach's zipcode
+    coach_result = search.by_zipcode(coach_zipcode)
+    coach_lat = coach_result.lat
+    coach_lng = coach_result.lng
+    
+    # Radius of the Earth in miles
+    R = 3958.8  # Radius of Earth in miles
+
+    # Convert latitudes and longitudes from degrees to radians
+    lat1 = radians(user_lat)
+    lon1 = radians(user_lng)
+    lat2 = radians(coach_lat)
+    lon2 = radians(coach_lng)
+
+    # Haversine formula to calculate distance
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    distance = R * c
+
+    return distance
 
 
 

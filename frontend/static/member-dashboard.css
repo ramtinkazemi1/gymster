@@ -359,3 +359,37 @@ input[type=range]:focus::-ms-fill-upper {
     transform: translateX(-50%);
   }
 }
+
+
+
+
+/* CSS styles for coach cards */
+.coach-card {
+  background-color: #fff; /* Background color of the card */
+  border-radius: 10px; /* Border radius to round the corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Grey shadow effect */
+  margin: 10px; /* Margin around each card */
+  padding: 20px; /* Padding inside each card */
+  width: calc(50% - 20px); /* Two cards in a row, accounting for margin */
+}
+
+.coach-card img {
+  border-radius: 50%; /* Make the profile picture circular */
+  max-width: 100%; /* Ensure the image doesn't overflow the container */
+}
+
+.coach-card h3 {
+  margin-top: 10px; /* Add space between the image and name */
+  font-size: 1.2em; /* Increase font size of the name */
+}
+
+.coach-card p {
+  margin-top: 5px; /* Add space between the name and additional info */
+}
+
+/* Media query for larger screens */
+@media screen and (min-width: 768px) {
+  .coach-card {
+    width: calc(50% - 20px); /* Two cards in a row for screens larger than 768px */
+  }
+}

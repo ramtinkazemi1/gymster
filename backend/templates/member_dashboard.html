@@ -93,45 +93,34 @@
       <input type="range" id="radius" name="radius" min="0" max="30" step="1" value="10">
       <center><button type="button" id="search-button">Search</button></center>
     </form>
-    <div id="search-results">
-      {% for coach in coaches %}
-      <div class="card mb-3">
-          <div class="row no-gutters">
-              <div class="col-md-4">
-                  <img src="{{ coach.profile_picture }}" class="card-img" alt="Profile Picture">
-              </div>
-              <div class="col-md-8">
-                  <div class="card-body">
-                      <h5 class="card-title">{{ coach.first_name }} {{ coach.last_name }}</h5>
-                      <p class="card-text"><strong>Bio:</strong> {{ coach.bio }}</p>
-                      <p class="card-text"><strong>Degree and Certs:</strong> {{ coach.degree_and_certs }}</p>
-                      <p class="card-text"><strong>Experiences:</strong> {{ coach.experiences }}</p>
-                      <p class="card-text"><strong>Specialty:</strong> {{ coach.specialty }}</p>
-                      <p class="card-text"><strong>Preferred Gym #1:</strong> {{ coach.preferred_gym_1 }}</p>
-                      <p class="card-text"><strong>Preferred Gym #2:</strong> {{ coach.preferred_gym_2 }}</p>
-                  </div>
-              </div>
-          </div>
-      </div>
-      {% endfor %}
-  </div>
-
+    <div id="search-results"></div>
   </div>
 
   <script src="{{ url_for('static', filename='member-dashboard.js') }}"></script>
   <script src="{{ url_for('static', filename='profile_picture.js') }}"></script>
+  
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Set the initial value of the radius output element to 10
+      const radiusOutput = document.getElementById('radius-value');
+      if (radiusOutput) {
+        radiusOutput.textContent = '10';
+      }
+
       // Retrieve the user's zipcode from the template
       const userZipcode = "{{ user.zipcode }}";
-  
+      
       // Set the initial value of the zipcode input to the user's zipcode
       const zipcodeInput = document.getElementById('zipcode');
-      zipcodeInput.value = userZipcode;
-  
+      if (zipcodeInput) {
+        zipcodeInput.value = userZipcode;
+      }
+    
       // Display the initial value of the zipcode input
       const zipcodeOutput = document.getElementById('zipcode-value');
-      zipcodeOutput.textContent = userZipcode;
+      if (zipcodeOutput) {
+        zipcodeOutput.textContent = userZipcode;
+      }
     });
   </script>
 
