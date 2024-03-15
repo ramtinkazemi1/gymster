@@ -8,8 +8,25 @@
 </head>
 <body>
   <header>
-    <h1>{{ user.first_name }}'s Dashboard</h1>
+    <div class="header-container">
+      <div class="header-title">
+        <h1>{{ user.first_name }}'s Dashboard</h1>
+      </div>
+      <div class="user-profile">
+        <div class="profile-info">
+          <div class="circular-picture" style="background-image: url('{{ user.profile_picture or 'https://via.placeholder.com/150' }}');"></div>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Contact Us</a>
+          <a href="#" id="logout-link">Log Out</a>
+        </div>
+      </div>
+    </div>
   </header>
+  
+  
   <div class="dashboard-container">
     <!-- Left Box - Future Appointments -->
     <div id="future-appointments-box" class="dashboard-box">
@@ -44,11 +61,11 @@
           </div>
           <div class="profile-field">
             <div class="field-key">Height:</div>
-            <div class="field-value" contenteditable="true">5' 3"</div>
+            <div class="field-value" contenteditable="true"></div>
           </div>
           <div class="profile-field">
-            <div class="field-key">Weight:</div>
-            <div class="field-value" contenteditable="true">172</div>
+            <div class="field-key">Weight(lbs):</div>
+            <div class="field-value" contenteditable="true"></div>
           </div>
           <div class="profile-field">
             <div class="field-key">Preferred Gym#1:</div>
@@ -73,15 +90,42 @@
       <br>
       <label for="radius">Select radius (miles):</label>
       <output for="radius" id="radius-value">10</output>
-      <input type="range" id="radius" name="radius" min="1" max="30" step="1" value="10">
-      <center><button type="submit">Search</button></center>
+      <input type="range" id="radius" name="radius" min="0" max="30" step="1" value="10">
+      <center><button type="button" id="search-button">Search</button></center>
     </form>
-    <div id="search-results">
-      <!-- Search results will be displayed here -->
-    </div>
+    <div id="search-results"></div>
   </div>
 
   <script src="{{ url_for('static', filename='member-dashboard.js') }}"></script>
   <script src="{{ url_for('static', filename='profile_picture.js') }}"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set the initial value of the radius output element to 10
+      const radiusOutput = document.getElementById('radius-value');
+      if (radiusOutput) {
+        radiusOutput.textContent = '10';
+      }
+
+      // Retrieve the user's zipcode from the template
+      const userZipcode = "{{ user.zipcode }}";
+      
+      // Set the initial value of the zipcode input to the user's zipcode
+      const zipcodeInput = document.getElementById('zipcode');
+      if (zipcodeInput) {
+        zipcodeInput.value = userZipcode;
+      }
+    
+      // Display the initial value of the zipcode input
+      const zipcodeOutput = document.getElementById('zipcode-value');
+      if (zipcodeOutput) {
+        zipcodeOutput.textContent = userZipcode;
+      }
+    });
+  </script>
+
+
+
+
 </body>
 </html>

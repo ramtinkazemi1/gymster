@@ -14,6 +14,21 @@
   <header>
     <div class="container">
       <div class="header-left">
+        {% if user %}
+        <div class="user-profile">
+          <div class="profile-info">
+            <div class="circular-picture" style="background-image: url('{{ user.profile_picture or 'https://via.placeholder.com/150' }}');"></div>
+            <span>{{ user.first_name }}</span>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu">
+            <a href="{{ url_for('dashboard') }}">My Dashboard</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact Us</a>
+            <a href="#" id="logout-link">Log Out</a>
+          </div>
+        </div>
+        {% else %}
         <a href="#" class="btn" id="signin-btn">Sign In</a>
         <div class="signin-box" id="signin-box">
           <input type="text" id="phone-number" placeholder="Phone number">
@@ -21,6 +36,7 @@
           <button class="signin" id="signin">Sign In</button>
           <a href="#" class="forgot-password" style="font-size: smaller">Forgot password?</a>
         </div>
+        {% endif %}
       </div>
       <div class="header-center">
         <h1>GYMSTER</h1>
