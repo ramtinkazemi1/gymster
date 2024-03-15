@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session, send_from_directory,jsonify
+from flask import Flask, render_template, request, flash, redirect, url_for, session, send_from_directory, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from wtforms import Form, StringField, PasswordField, validators
@@ -37,8 +37,6 @@ class User(db.Model):
 
     def __repr__(self):
         return f"User('{self.first_name}', '{self.last_name}', '{self.email}')"
-    
-    
     
     def serialize(self):
         return {
@@ -259,8 +257,23 @@ def search_coaches():
                 coaches_within_radius = [coach for coach in coaches_within_radius if calculate_distance(user_zipcode, coach.zipcode) <= radius]
                 print("Coaches within the specified radius:", coaches_within_radius)
                 
-                # Serialize the coaches to JSON
-                serialized_coaches = [coach.serialize() for coach in coaches_within_radius]
+                # Serialize the coaches to JSON along with distance
+                serialized_coaches = [{
+                    'id': coach.id,
+                    'first_name': coach.first_name,
+                    'last_name': coach.last_name,
+                    'email': coach.email,
+                    'phone_number': coach.phone_number,
+                    'street_address_1': coach.street_address_1,
+                    'street_address_2': coach.street_address_2,
+                    'city': coach.city,
+                    'state': coach.state,
+                    'zipcode': coach.zipcode,
+                    'country': coach.country,
+                    'user_type': coach.user_type,
+                    'profile_picture': coach.profile_picture,
+                    'distance': round(calculate_distance(user_zipcode, coach.zipcode), 1) 
+                } for coach in coaches_within_radius]
 
                 # Return JSON response
                 return jsonify(coaches=serialized_coaches)
@@ -302,8 +315,6 @@ def calculate_distance(user_zipcode, coach_zipcode):
     distance = R * c
 
     return distance
-
-
 
 
 @app.route('/uploads/<filename>')

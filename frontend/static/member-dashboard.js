@@ -55,41 +55,58 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function createCoachCard(coach, distance) {
-    // Create a div element for the coach card
-    const card = document.createElement('div');
-    card.classList.add('coach-card');
+  // Create a div element for the coach card
+  const card = document.createElement('div');
+  card.classList.add('coach-card');
 
-    // Create an image element for the profile picture
-    const img = document.createElement('img');
-    img.src = coach.profile_picture;
-    img.alt = 'Profile Picture';
+  // Create a div element for the coach information
+  const infoDiv = document.createElement('div');
+  infoDiv.classList.add('info');
 
-    // Create a div element for the coach information
-    const infoDiv = document.createElement('div');
+  // Create an image element for the profile picture
+  const img = document.createElement('img');
+  img.src = coach.profile_picture;
+  img.alt = 'Profile Picture';
 
-    // Create a heading element for the coach's name
-    const nameHeading = document.createElement('h3');
-    nameHeading.textContent = `${coach.first_name} ${coach.last_name}`;
+  // Create a div element for the phone, zipcode, and book button
+  const phoneZipcodeBookDiv = document.createElement('div');
+  phoneZipcodeBookDiv.classList.add('phone-zipcode-book');
 
-    // Create a paragraph element for the coach's phone number
-    const phoneParagraph = document.createElement('p');
-    phoneParagraph.textContent = `Phone: ${coach.phone_number}`;
+  // Create a heading element for the coach's name
+  const nameHeading = document.createElement('h3');
+  nameHeading.textContent = `${coach.first_name} ${coach.last_name}`;
 
-    // Create a paragraph element for the coach's zipcode
-    const zipcodeParagraph = document.createElement('p');
-    zipcodeParagraph.textContent = `Zipcode: ${coach.zipcode}`;
+  // Create a paragraph element for the coach's phone number
+  const phoneParagraph = document.createElement('p');
+  phoneParagraph.textContent = `Phone: ${coach.phone_number}`;
 
-    // Create a paragraph element for the coach's distance from user
-    const distanceParagraph = document.createElement('p');
-    distanceParagraph.textContent = `${distance} miles away`;
+  // Create a paragraph element for the coach's zipcode
+  const zipcodeParagraph = document.createElement('p');
+  zipcodeParagraph.textContent = `Zipcode: ${coach.zipcode}`;
 
-    // Append the elements to the card
-    infoDiv.appendChild(nameHeading);
-    infoDiv.appendChild(phoneParagraph);
-    infoDiv.appendChild(zipcodeParagraph);
-    infoDiv.appendChild(distanceParagraph);
-    card.appendChild(img);
-    card.appendChild(infoDiv);
+  // Create a button element for booking
+  const bookButton = document.createElement('button');
+  bookButton.textContent = 'Book';
+  bookButton.classList.add('book-button');
 
-    return card;
+  // Append the phone, zipcode, and book button to phoneZipcodeBookDiv
+  phoneZipcodeBookDiv.appendChild(phoneParagraph);
+  phoneZipcodeBookDiv.appendChild(zipcodeParagraph);
+  phoneZipcodeBookDiv.appendChild(bookButton);
+
+  // Append phoneZipcodeBookDiv to infoDiv
+  infoDiv.appendChild(nameHeading);
+  infoDiv.appendChild(phoneZipcodeBookDiv);
+
+  // Create a paragraph element for the coach's distance from user
+  const distanceParagraph = document.createElement('p');
+  distanceParagraph.textContent = `${distance} miles away`;
+  distanceParagraph.classList.add('distance');
+
+  // Append the image, infoDiv, and distanceParagraph to the card
+  card.appendChild(img);
+  card.appendChild(infoDiv);
+  card.appendChild(distanceParagraph);
+
+  return card;
 }
